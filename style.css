@@ -1,96 +1,101 @@
-body{
-    margin: 0px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #F4F7F9;
-
-}
-.toolbar{
-    background-color: #2e8b8b;
-    padding: 10px;
-    align-items: center;
-    gap: 10px;
-    color: rgb(10, 2, 2);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7f9;
 }
 
-
-.toolbar select,.toolbar button, .toolbar input[type="file"],.toolbar input[type="color"]{
-    padding: 6px 10px;
-    border: #2e8b8b;
-    font-weight: bold;
-    border-radius: 4px;
-
+.toolbar {
+  background-color: #2e8b8b;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.toolbar button:hover{
-    background-color: #ddd;
+.toolbar select,
+.toolbar button,
+.toolbar input[type="color"] {
+  padding: 6px 10px;
+  border: none;
+  font-weight: bold;
+  border-radius: 4px;
+  background-color: white;
+  color: #2e8b8b;
+  cursor: pointer;
 }
 
-.toolbar-icon-button{
-    background-color: white;
-    color: #2e8b8b;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
+.toolbar-icon-button {
+  background-color: white;
+  color: #2e8b8b;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
-.toolbar-icon-button:hover{
-    background-color: #ddd;
- 
+.toolbar-icon-button:hover,
+.toolbar select:hover,
+.toolbar button:hover {
+  background-color: #ddd;
 }
 
-.spreadsheet  {
- display: grid;
- grid-template-columns: 40px repeat(20, 100px);
- margin: 10px;
- background: white;
- border-radius: 8px;
- overflow: auto;
- box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.sheet-container {
+  padding: 20px;
+  overflow-x: auto;
 }
 
-.cell ,.header{
- border: 1px solid #ccc;
- padding: 6px;
- box-sizing: border-box;
- min-height: 24px;
-}
-.header{
-    background: #edf2f7;
-    font-weight: Bold;
-    text-align: center;
+.spreadsheet {
+  display: grid;
+  grid-template-columns: 40px repeat(20, 100px);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-width: max-content;
 }
 
-
-.cell[contenteditable]{
-    padding: 5px;
-    border: 1px solid #ccc;
-    outline: none;
+.cell,
+.header {
+  border: 1px solid #ccc;
+  padding: 6px;
+  box-sizing: border-box;
+  min-height: 24px;
 }
 
-.row-header{
-    grid-column: 1;
-    background: #d4dbdb;
-    text-align: center;
-    font-weight: bold;
+.header {
+  background: #edf2f7;
+  font-weight: bold;
+  text-align: center;
 }
 
-
-.sheet-container{
-    padding: 10px;
+.cell[contenteditable] {
+  background: #fdfdfd;
+  outline: none;
+  color: black;
 }
 
-.new-sheet-btn{
-    color: #2e8b8b;
-     background-color: white;
-    border: none;
-    font-weight: bold;
-    border-radius: 4px;
-    border: 2px solid #2e8b8b;
+.row-header {
+  grid-column: 1;
+  background: #edf2f7;
+  text-align: center;
+  font-weight: bold;
 }
 
-.new-sheet-btn:hover{
-    background-color:#2e8b8b;
-    color: white;
+.new-sheet-btn {
+  background-color: #fff;
+  color: #2e8b8b;
+  font-weight: bold;
+  border-radius: 4px;
+  border: 2px solid #2e8b8b;
+  padding: 6px 12px;
+}
+
+.new-sheet-btn:hover {
+  background-color: #2e8b8b;
+  color: white;
 }

@@ -8,61 +8,48 @@
   </head>
   <body>
     <div class="toolbar">
-      <button
-        class="toolbar-icon-button"
-        onclick="document.execCommand('copy')"
-      >
-        ©
-      </button>
-      <button class="toolbar-icon-button" onclick="document.execCommand('cut')">
-        ✂
-      </button>
-      <button
-        class="toolbar-icon-button"
-        onclick="document.execCommand('paste')"
-      >
-        📓
-      </button>
+      <button class="toolbar-icon-button" onclick="document.execCommand('copy')">©️</button>
+      <button class="toolbar-icon-button" onclick="document.execCommand('cut')">✂️</button>
+      <button class="toolbar-icon-button" onclick="document.execCommand('paste')">📓</button>
 
-      <select id="fontselect">
+      <select id="fontSelect">
         <option value="Arial">Arial</option>
         <option value="monospace">Monospace</option>
         <option value="Verdana">Verdana</option>
       </select>
 
       <select id="fontSizeSelect">
-        <option value="10">10px</option>
-        <option value="12">12px</option>
-        <option value="14">14px</option>
-        <option value="16">16px</option>
-        <option value="18">18px</option>
-        <option value="20">20px</option>
+        <option value="1">10px</option>
+        <option value="2">13px</option>
+        <option value="3">16px</option>
+        <option value="4">18px</option>
+        <option value="5">20px</option>
+        <option value="6">24px</option>
+        <option value="7">28px</option>
       </select>
+
       <button onclick="format('bold')">B</button>
       <button onclick="format('italic')">I</button>
       <button onclick="format('underline')">U</button>
-      <button onclick="format('justifyLeft')">⬅</button>
-      <button onclick="format('justifyCenter')">↔</button>
-      <button onclick="format('justifyRight')">➡</button>
-      <button onclick="format('removeFormate')">❌</button>
+      <button onclick="format('justifyLeft')">⬅️</button>
+      <button onclick="format('justifyCenter')">↔️</button>
+      <button onclick="format('justifyRight')">➡️</button>
+      <button onclick="format('removeFormat')">❌</button>
 
-      <label style="color: white "
-        >Text:<input type="color" onchange="applyColor(this.value,'color')" />
+      <label style="color: white">Text:
+        <input type="color" onchange="applyColor(this.value, 'color')" />
       </label>
-      <label style="color: white"
-        >BG:<input
-          type="color"
-          onchange="applyColor(this.value,'backgroundColor')"
-        />
+      <label style="color: white">BG:
+        <input type="color" onchange="applyColor(this.value, 'backgroundColor')" />
       </label>
 
-      <button class="new-sheet-btn" onclick="addNewSheet()">+New Sheet</button>
+      <button class="new-sheet-btn" onclick="addNewSheet()">+ New Sheet</button>
       <button class="new-sheet-btn" onclick="exportToCSV()">Export to CSV</button>
-      <button  class="new-sheet-btn" onclick="importFromCSV()">Import from CSV</button>
-
-      <div class="sheet-container  " id="sheetContainer"></div>
-
-      <script src="script.js"></script>
+      <button class="new-sheet-btn" onclick="importFromCSV()">Import from CSV</button>
     </div>
+
+    <div class="sheet-container" id="sheetContainer"></div>
+
+    <script src="script.js"></script>
   </body>
 </html>

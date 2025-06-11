@@ -7,13 +7,12 @@ function createSpreadsheet(containerId) {
   const spreadsheet = document.createElement('div');
   spreadsheet.className = 'spreadsheet';
   spreadsheet.dataset.sheetId = sheetCount;
-  sheetCount++;
 
-  // Create header row (top-left corner empty + A to T)
-  const topLeft = document.createElement('div');
-  topLeft.className = 'header';
-  spreadsheet.appendChild(topLeft);
+  const topLeftCorner = document.createElement('div');
+  topLeftCorner.className = 'header';
+  spreadsheet.appendChild(topLeftCorner);
 
+  // Column headers A-T
   for (let col = 0; col < 20; col++) {
     const colHeader = document.createElement('div');
     colHeader.className = 'header';
@@ -21,7 +20,6 @@ function createSpreadsheet(containerId) {
     spreadsheet.appendChild(colHeader);
   }
 
-  // Rows and cells
   for (let row = 1; row <= 25; row++) {
     const rowHeader = document.createElement('div');
     rowHeader.className = 'row-header';
@@ -33,8 +31,8 @@ function createSpreadsheet(containerId) {
       cell.className = 'cell';
       cell.contentEditable = true;
 
-      const cellId = 'S0_${String.fromCharCode(65 + col)}${row};'
-      cell.dataset.cellId = cellId;
+      const cellId = `S${sheetCount}_${String.fromCharCode(65 + col)}${row}`;
+      cell.dataset.id = cellId;
 
       cell.addEventListener('click', () => {
         currentCell = cell;
@@ -53,6 +51,7 @@ function createSpreadsheet(containerId) {
   }
 
   container.appendChild(spreadsheet);
+  sheetCount++;
 }
 
 function format(command) {
@@ -61,23 +60,19 @@ function format(command) {
 
 function applyColor(color, type) {
   if (currentCell) {
-    if (type === 'color') {
-      currentCell.style.color = color;
-    } else {
-      currentCell.style.backgroundColor = color;
-    }
-    const cellId = currentCell.dataset.cellId;
+    currentCell.style[type] = color;
+    const cellId = currentCell.dataset.id;
     cellData[cellId] = cellData[cellId] || {};
-    cellData[cellId][type] = color;
+    cellData[cellId][type === 'color' ? 'color' : 'bg'] = color;
   }
 }
 
-document.getElementById('fontSelect').addEventListener('change', (e) => {
-  document.execCommand('fontName', false, e.target.value);
+document.getElementById('fontSelect').addEventListener('change', function () {
+  document.execCommand('fontName', false, this.value);
 });
 
-document.getElementById('fontSizeSelect').addEventListener('change', (e) => {
-  document.execCommand('fontSize', false, e.target.value);
+document.getElementById('fontSizeSelect').addEventListener('change', function () {
+  document.execCommand('fontSize', false, this.value);
 });
 
 function addNewSheet() {
@@ -85,12 +80,15 @@ function addNewSheet() {
 }
 
 function exportToCSV() {
+  const rows = 25;
+  const cols = 20;
   let csv = '';
-  for (let row = 1; row <= 25; row++) {
+
+  for (let row = 1; row <= rows; row++) {
     let rowData = [];
-    for (let col = 0; col < 20; col++) {
-      let cellId = 'S0_${String.fromCharCode(65 + col)}${row};'
-      rowData.push(cellData[cellId]?.value || '');
+    for (let col = 0; col < cols; col++) {
+      const cellId = `S0_${String.fromCharCode(65 + col)}${row}`;
+      rowData.push((cellData[cellId] && cellData[cellId].value) || '');
     }
     csv += rowData.join(',') + '\n';
   }
@@ -100,9 +98,46 @@ function exportToCSV() {
   const a = document.createElement('a');
   a.href = url;
   a.download = 'spreadsheet.csv';
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 
-// Initialize first sheet
+function importFromCSV() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.csv';
+
+  input.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const text = event.target.result;
+      const rows = text.trim().split('\n');
+      const spreadsheet = document.querySelector('.spreadsheet');
+      const cells = spreadsheet.querySelectorAll('.cell');
+
+      let index = 0;
+      for (let row = 0; row < rows.length; row++) {
+        const cols = rows[row].split(',');
+        for (let col = 0; col < cols.length; col++) {
+          const cell = cells[index];
+          if (cell) {
+            cell.innerText = cols[col];
+            const cellId = cell.dataset.id;
+            cellData[cellId] = { value: cols[col], color: '', bg: '' };
+          }
+          index++;
+        }
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  input.click();
+}
+
 createSpreadsheet('sheetContainer');
